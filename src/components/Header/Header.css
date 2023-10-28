@@ -1,0 +1,18 @@
+.logo {
+  line-height: 0;
+}
+
+.logo__image {
+  width: 36px;
+}
+
+.header {
+  display: flex;
+  box-sizing: border-box;
+  padding: 18px 70px 18px;
+}
+
+.page__header {
+  position: absolute;
+  width: 100%;
+}

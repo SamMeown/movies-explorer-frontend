@@ -1,7 +1,6 @@
-.header__menu-unsigned {
+.header__menu-unsigned, .header__menu {
   display: none;
   flex-grow: 1;
-  justify-content: end;
   align-items: center;
   margin-left: 45px;
 }
@@ -12,8 +11,6 @@
 
 .header__menu-link {
   margin: 0;
-  margin-left: 30px;
-
   color: #fff;
   text-decoration: none;
   font-size: 12px;
@@ -23,8 +20,39 @@
   transition: opacity 0.3s ease;
 }
 
+.header__menu-link:not(:first-of-type) {
+  margin-left: 30px;
+}
+
 .header__menu-link:hover {
   opacity: 0.8;
+}
+
+.header__menu-link_size_large {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.header__menu-link_size_large:not(:first-of-type) {
+  margin-left: 16px;
+}
+
+.header__menu-link_alignment_end:not(.header__menu-link_alignment_end ~ .header__menu-link_alignment_end) {
+  margin-left:auto;
+}
+
+.header__main-link {
+  display:none;
+  visibility: hidden;
+}
+
+.header__main-link + .header__menu-link_size_large {
+  margin-left: 0;
+}
+
+.header__menu-link_active {
+  font-weight: 500;
 }
 
 .header__menu-link_type_button {
@@ -32,4 +60,31 @@
   color: #000;
   background-color: #3DDC84;
   border-radius: 3px;
+}
+
+.header__menu-link_type_icon-button {
+  padding: 3px 3px 3px 11px;
+  background-color: rgba(256, 256, 256, 0);
+  border-radius: 20px;
+  font-weight: 500;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.header__menu-link_type_icon-button img {
+  width: 26px;
+  height: 26px;
+  vertical-align:middle;
+  background-color: rgba(256, 256, 256, 0.1);
+  border-radius: 50%;
+  object-fit: none;
+}
+
+.header__menu-link_type_icon-button span {
+  margin: 0;
+  margin-right: 7px;
+}
+
+.header__menu-link_type_icon-button:hover {
+  opacity: 0.8;
+  background-color: rgba(256, 256, 256, 0.03);
 }

@@ -147,7 +147,8 @@
 }
 
 .header__menu-btn_pressed > .header__menu-btn-icon {
-  transform: rotate(45deg);
+  transform: rotate(225deg);
+  background-color: transparent;
 }
 
 .header__menu-btn_pressed > .header__menu-btn-icon::before {

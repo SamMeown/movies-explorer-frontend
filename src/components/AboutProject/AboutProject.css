@@ -11,11 +11,6 @@
   list-style: none;
 }
 
-.about__item {
-  /* display: flex;
-  justify-content: ; */
-}
-
 .about__item:not(:last-child) {
   margin-right: 40px;
 }

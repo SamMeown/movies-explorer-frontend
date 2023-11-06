@@ -1,0 +1,5 @@
+.movies {
+  flex-grow: 1;
+  background-color: #202020;
+  /* height: 285px; */
+}

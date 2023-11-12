@@ -165,7 +165,7 @@
   .header__menu-btn {
     display: flex;
     position: absolute;
-    z-index: 2;
+    z-index: 3;
   }
 
   .header__menu {
@@ -182,6 +182,7 @@
     display: flex;
     justify-content: end;
     height:auto;
+    z-index: 2;
 
     opacity: 0;
     visibility: hidden;

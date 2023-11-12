@@ -1,0 +1,39 @@
+.cards {
+  padding: 74px 64px 80px;
+}
+
+.cards__items {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 26px 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* width: 1000px; */
+}
+
+.movies-list__btn {
+  display: block;
+  margin: 54px auto 0;
+  width: 75vw;
+  max-width: 320px;
+  padding: 10px 60px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2f2f2f;
+
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.1s ease;
+}
+
+.movies-list__btn:hover {
+  opacity: 0.8;
+}
+
+.movies-list__btn:active {
+  transform: scale(0.92);
+}

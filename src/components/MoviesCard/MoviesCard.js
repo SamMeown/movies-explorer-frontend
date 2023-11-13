@@ -2,7 +2,7 @@ import './MoviesCard.css'
 import likeIcon from '../../images/card-icon-like.svg'
 import deleteIcon from '../../images/card-icon-delete.svg'
 
-function MoviesCard({card, isLikeMode, onCardLike, onCardDelete}) {
+function MoviesCard({card, onCardLike, onCardDelete}) {
 
   function handleCardLike() {
     onCardLike(card);
@@ -17,7 +17,7 @@ function MoviesCard({card, isLikeMode, onCardLike, onCardDelete}) {
       <img className="card__image" src={card.link} alt={card.name}/>
       <div className="card__name-container">
         <h2 className="card__name overflow-ready-string">{card.name}</h2>
-        {isLikeMode 
+        {onCardLike 
           ? <button className={`card__btn card__btn_type_like ${card.isLiked ? "card__btn_clicked" : ""}`} type="button" aria-label="Лайк" onClick={handleCardLike}>
               <svg width="10" height="9" viewBox="0 0 10 9">
                 <use href={`${likeIcon}#like-btn-icon`} className="card__like-icn" />

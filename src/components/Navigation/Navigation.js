@@ -51,7 +51,7 @@ function Navigation() {
             className="header__menu-link header__menu-link_size_large header__menu-link_type_icon-button header__menu-link_alignment_right header__menu-link_alignment_mobile-bottom"
             onClick={handleToggleMenu}
             to="/profile"
-          ><span>Аккаунт</span><img src={accountIcon} alt="иконка аккаунта" /></Link>
+          ><span className="header__menu-link-title">Аккаунт</span><img className="header__menu-link-icon" src={accountIcon} alt="иконка аккаунта" /></Link>
         </div>
       </div>
     </nav>

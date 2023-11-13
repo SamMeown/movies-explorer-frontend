@@ -82,7 +82,7 @@
   transition: opacity 0.3s ease, background-color 0.3s ease;
 }
 
-.header__menu-link_type_icon-button img {
+.header__menu-link-icon {
   width: 26px;
   height: 26px;
   vertical-align:middle;
@@ -91,7 +91,7 @@
   object-fit: none;
 }
 
-.header__menu-link_type_icon-button span {
+.header__menu-link-title {
   margin: 0;
   margin-right: 7px;
 }
@@ -243,5 +243,7 @@
     font-size: 13px;
     font-weight: 500;
     line-height: 12px;
+    padding-bottom: 3px;
+    border-bottom: none;
   }
 }

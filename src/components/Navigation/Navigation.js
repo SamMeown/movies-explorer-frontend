@@ -13,11 +13,11 @@ function Navigation() {
 
   return (
   <>
-    <nav className="header__menu-unsigned header__navigation ">
+    <nav className="header__menu-unsigned header__navigation header__navigation_visible">
       <Link className="header__menu-link header__menu-link_alignment_right" to="/signup">Регистрация</Link>
       <Link className="header__menu-link header__menu-link_type_button header__menu-link_alignment_right" to="/signin">Войти</Link>
     </nav>
-    <nav className="header__menu header__navigation header__navigation_visible">
+    <nav className="header__menu header__navigation ">
       <button className={`header__menu-btn ${isMenuOpened && 'header__menu-btn_pressed'}`} onClick={handleToggleMenu}>
         <span className="header__menu-btn-icon"></span>
       </button>

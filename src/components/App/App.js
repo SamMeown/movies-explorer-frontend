@@ -3,6 +3,7 @@ import Header from "../Header/Header"
 import Main from "../Main/Main"
 import Movies from "../Movies/Movies";
 import Footer from "../Footer/Footer";
+import Login from "../Login/Login";
 import { Route, Routes } from "react-router-dom";
 import { useState } from 'react';
 
@@ -67,16 +68,17 @@ function App() {
   return (
     <div className="page">
       <div className="page__content">
-        <Header />
         <Routes>
           <Route path="/" element={(
             <>
+              <Header />
               <Main />
               <Footer />
             </>
           )} />
           <Route path="/movies" element={(
             <>
+              <Header />
               <Movies 
                 cards={cards}
                 onCardLike={handleCardLike} 
@@ -87,12 +89,16 @@ function App() {
           )}/>
           <Route path="/saved-movies" element={(
             <>
+              <Header />
               <Movies 
                 cards={savedCards}
                 onCardDelete={handleCardDelete}  
                 inProgress={false}/>
               <Footer />
             </>
+          )}/>
+          <Route path="/signin" element={(
+            <Login />
           )}/>
         </Routes>
       </div>

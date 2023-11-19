@@ -3,7 +3,7 @@ import './MainWithForm.css'
 import logo from '../../images/logo.svg';
 
 
-function MainWithForm({title, buttonTitle, linkLabel, linkText, children}) {
+function MainWithForm({title, buttonTitle, linkLabel, linkText, linkRef, children}) {
   return (
     <main className="form-screen">
       <section className="form-content form-screen__content">
@@ -16,7 +16,7 @@ function MainWithForm({title, buttonTitle, linkLabel, linkText, children}) {
           <span className="form-error form__submit-error">Вы ввели неправильный логин или пароль.</span>
           <button className="form__submit-btn" type="submit">{buttonTitle}</button>
           <div className="form__link-container">
-            <span className="form__link-label">{linkLabel}</span><Link className="form__link" to="/signup">{linkText}</Link>
+            <span className="form__link-label">{linkLabel}</span><Link className="form__link" to={linkRef}>{linkText}</Link>
           </div>
         </form>
       </section>

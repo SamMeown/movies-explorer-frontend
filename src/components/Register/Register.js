@@ -22,7 +22,7 @@ function Register() {
       </label>
       <label className="form__field">
         <span className="form__label">Пароль</span>
-        <input className="form__input form__input_type_error" id="password-input" type="password" name="password" placeholder="адрес электронной почты" minLength="6" maxLength="30" required value="somepass"/>
+        <input className="form__input form__input_type_error" id="password-input" type="password" name="password" placeholder="пароль (от 6 символов)" minLength="6" maxLength="30" required value="somepass"/>
         <span className="form-error form-error_active form__input-error form__input-error_el_password-input">Что-то пошло не так...</span>
       </label>
     </MainWithForm>

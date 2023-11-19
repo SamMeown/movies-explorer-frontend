@@ -4,6 +4,7 @@ import Main from "../Main/Main"
 import Movies from "../Movies/Movies";
 import Footer from "../Footer/Footer";
 import Login from "../Login/Login";
+import Register from "../Register/Register";
 import { Route, Routes } from "react-router-dom";
 import { useState } from 'react';
 
@@ -99,6 +100,9 @@ function App() {
           )}/>
           <Route path="/signin" element={(
             <Login />
+          )}/>
+          <Route path="/signup" element={(
+            <Register />
           )}/>
         </Routes>
       </div>

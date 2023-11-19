@@ -3,6 +3,7 @@ import Header from "../Header/Header"
 import Main from "../Main/Main"
 import Movies from "../Movies/Movies";
 import Footer from "../Footer/Footer";
+import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import { Route, Routes } from "react-router-dom";
@@ -96,6 +97,12 @@ function App() {
                 onCardDelete={handleCardDelete}  
                 inProgress={false}/>
               <Footer />
+            </>
+          )}/>
+          <Route path="/profile" element={(
+            <>
+              <Header />
+              <Profile name="Виталий"/>
             </>
           )}/>
           <Route path="/signin" element={(

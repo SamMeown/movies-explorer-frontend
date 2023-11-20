@@ -1,0 +1,58 @@
+.error-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  background-color: #202020;
+}
+
+.error-screen__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-top: 30px;
+
+  height: 100%;
+  max-height: 580px;
+  min-height: 394px;
+  flex-grow: 1;
+}
+
+.error-screen__status {
+  margin: 0;
+  margin-top: auto;
+  color: #fff;
+  font-size: 140px;
+  font-weight: 400;
+  line-height: 169px;
+}
+
+.error-screen__message {
+  margin: 0;
+  margin-top: 5px;
+  max-width: 400px;
+
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.error-screen__link {
+  margin-top: 184px;
+
+  text-decoration: none;
+  color: #4285f4;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+
+  transition: opacity 0.3s ease;
+}
+
+.error-screen__link:hover {
+  opacity: 0.8;
+}

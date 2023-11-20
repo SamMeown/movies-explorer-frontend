@@ -6,6 +6,7 @@ import Footer from "../Footer/Footer";
 import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
+import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes } from "react-router-dom";
 import { useState } from 'react';
 
@@ -111,6 +112,9 @@ function App() {
           <Route path="/signup" element={(
             <Register />
           )}/>
+          <Route path="*" element={(
+            <PageNotFound />
+          )} />
         </Routes>
       </div>
     </div>

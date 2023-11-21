@@ -69,6 +69,7 @@
   line-height: 17px;
 }
 
+
 @media screen and (max-width: 768px) {
   .about {
     padding: 90px 50px;
@@ -93,10 +94,6 @@
     font-weight: 400;
   }
 }
-
-
-
-
 
 
 @media screen and (max-width: 480px) {

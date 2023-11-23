@@ -37,8 +37,13 @@
   }
   
   .promo__image {
+    display: block;
     align-self: center;
-    min-width: 680px;
+    max-width: 680px;
+    width: calc(100% + 2*44px);
+    min-height: 230px;
+    object-position: center;
+    object-fit: cover;
   }
 }
 
@@ -53,5 +58,9 @@
     line-height: 39px;
     letter-spacing: -1.24px;
     margin-bottom: 60px;
+  }
+
+  .promo__image {
+    width: calc(100% + 2*10px);
   }
 }

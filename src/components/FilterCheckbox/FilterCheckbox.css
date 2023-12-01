@@ -61,3 +61,18 @@
   line-height: 18px; /* 138.462% */
 }
 
+
+@media screen and (max-width: 768px) {
+  .toggle__label {
+    margin-left: 15px;
+  }
+}
+
+
+@media screen and (max-width: 480px) {
+  .toggle__label {
+    margin-left: 13px;
+    font-size: 11px;
+    line-height: 18px;
+  }
+}

@@ -56,3 +56,36 @@
 .error-screen__link:hover {
   opacity: 0.8;
 }
+
+
+@media screen and (max-width: 480px) {
+  .error-screen {
+    justify-content: stretch;
+  }
+  
+  .error-screen__content {
+    margin-bottom: 30px;
+    margin-top: 45px;
+    max-height:none;
+  }
+  
+  .error-screen__status {
+    margin-top: auto;
+    font-size: 80px;
+    line-height: 97px;
+  }
+  
+  .error-screen__message {
+    margin-top: 10px;
+    max-width: 300px;
+  
+    font-size: 12px;
+    line-height: 15px;
+  }
+  
+  .error-screen__link {
+    margin-top: auto;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

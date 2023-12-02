@@ -187,3 +187,65 @@
 .form__link:hover {
   opacity: 0.8;
 }
+
+
+@media screen and (max-width: 480px) {
+
+  .form-screen {
+    justify-content: stretch;
+    align-items: stretch;
+  }
+  
+  .form-content {
+    justify-content: stretch;
+    align-items: stretch;
+    flex-grow: 1;
+    
+    padding: 56px 30px 30px;
+  }
+  
+  .form-content__logo {
+    align-self: center;
+  }
+  
+  .form {
+    width: auto;
+    height: auto;
+    
+    flex-grow: 1;
+  }
+  
+  .form-content__form {
+    margin-top: 50px;
+  }
+  
+  .form__title {
+    align-self: center;
+  }
+  
+  .form__fieldset {
+    margin-top: 80px;
+  }
+  
+  .form__submit-btn {
+    padding: 15px 30px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 15px;
+  }
+  
+  .form__link-container {
+    margin-top: 14px;
+  }
+  
+  .form__link-label {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  
+  .form__link {
+    margin-left: 7px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

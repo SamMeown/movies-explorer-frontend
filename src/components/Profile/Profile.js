@@ -21,7 +21,13 @@ function Profile({name}) {
           <fieldset className="profile-form__fieldset">
             <label className={`profile-form__field ${editMode ? "profile-form__field_mode_edit" : ""}`}>
               <span className="profile-form__label">Имя</span>
-              <input className="profile-form__input" id="name-input" type="text" name="name" placeholder="адрес электронной почты" minLength="2" maxLength="100" required value={name} />
+              <input 
+                className="profile-form__input" 
+                id="name-input" type="text" name="name" 
+                placeholder="адрес электронной почты" 
+                minLength="2" maxLength="100" required 
+                readOnly={!editMode}
+                value={name} />
               <span className="profile-form-error profile-form__input-error profile-form__input-error_el_name-input"></span>
             </label>
             <hr className="profile-form__splitter" />
@@ -33,6 +39,7 @@ function Profile({name}) {
                 type="email" 
                 placeholder="адрес электронной почты" 
                 minLength="3" maxLength="100" required 
+                readOnly={!editMode}
                 value="pochta@yandex.ru" />
               <span 
                 className={`profile-form-error profile-form__input-error profile-form__input-error_el_email-input ${editMode ? "profile-form-error_active" : ""}`}

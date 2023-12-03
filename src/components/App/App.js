@@ -7,7 +7,7 @@ import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import PageNotFound from "../PageNotFound/PageNotFound";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 
 let example_cards = [
@@ -50,8 +50,11 @@ let example_cards = [
 
 function App() {
 
+  const [loggedIn, setLoggedIn] = useState(true);
   const [cards, setCards] = useState(example_cards);
   const [savedCards, setSavedCards] = useState(example_cards);
+
+  const navigate = useNavigate();
 
   function handleCardLike(card) {
     card.isLiked = !card.isLiked;
@@ -68,20 +71,30 @@ function App() {
     // TODO
   }
 
+  function handleLogin() {
+    setLoggedIn(true);
+    navigate('/movies');
+  }
+
+  function handleLogout() {
+    setLoggedIn(false);
+    navigate('/');
+  }
+
   return (
     <div className="page">
       <div className="page__content">
         <Routes>
           <Route path="/" element={(
             <>
-              <Header />
+              <Header loggedIn={loggedIn}/>
               <Main />
               <Footer />
             </>
           )} />
           <Route path="/movies" element={(
             <>
-              <Header />
+              <Header loggedIn={loggedIn}/>
               <Movies 
                 cards={cards}
                 onCardLike={handleCardLike} 
@@ -92,7 +105,7 @@ function App() {
           )}/>
           <Route path="/saved-movies" element={(
             <>
-              <Header />
+              <Header loggedIn={loggedIn}/>
               <Movies 
                 cards={savedCards}
                 onCardDelete={handleCardDelete}  
@@ -102,12 +115,12 @@ function App() {
           )}/>
           <Route path="/profile" element={(
             <>
-              <Header />
-              <Profile name="Виталий"/>
+              <Header loggedIn={loggedIn}/>
+              <Profile name="Виталий" onLogout={handleLogout}/>
             </>
           )}/>
           <Route path="/signin" element={(
-            <Login />
+            <Login onLogin={handleLogin}/>
           )}/>
           <Route path="/signup" element={(
             <Register />

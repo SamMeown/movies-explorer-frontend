@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './Profile.css'
 
-function Profile({name}) {
+function Profile({name, onLogout}) {
 
   const [editMode, setEditMode] = useState(false);
 
@@ -48,7 +48,7 @@ function Profile({name}) {
           </fieldset>
           <div className={`profile-form__container ${editMode ? "profile-form__container_hidden" : ""}`}>
             <button className="profile-form__link-btn" type="button" onClick={handleEdit}>Редактировать</button>
-            <button className="profile-form__link-btn profile-form__link-btn_color_red" type="button">Выйти из аккаунта</button>
+            <button className="profile-form__link-btn profile-form__link-btn_color_red" type="button" onClick={onLogout}>Выйти из аккаунта</button>
           </div>
           <div className={`profile-form__container ${editMode ? "" : "profile-form__container_hidden"}`}>
             <span 

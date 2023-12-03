@@ -1,7 +1,13 @@
 import './Login.css'
 import MainWithForm from '../MainWithForm/MainWithForm'
 
-function Login() {
+function Login({onLogin}) {
+
+  function handleLogin(evt) {
+    evt.preventDefault();
+    onLogin();
+  }
+
   return (
     <MainWithForm 
       title="Рады видеть!"
@@ -9,6 +15,7 @@ function Login() {
       linkLabel="Ещё не зарегистрированы?"
       linkText="Регистрация"
       linkRef="/signup"
+      onSubmit={handleLogin}
     >
       <label className="form__field">
         <span className="form__label">E-mail</span>
@@ -17,7 +24,7 @@ function Login() {
       </label>
       <label className="form__field">
         <span className="form__label">Пароль</span>
-        <input className="form__input" id="password-input" type="password" name="password" placeholder="пароль (от 6 символов)" minLength="6" maxLength="30" required value=""/>
+        <input className="form__input" id="password-input" type="password" name="password" placeholder="пароль (от 6 символов)" minLength="6" maxLength="30" required value="123"/>
         <span className="form-error form__input-error form__input-error_el_password-input"></span>
       </label>
     </MainWithForm>

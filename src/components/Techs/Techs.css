@@ -19,6 +19,7 @@
 .techs__text {
   align-self: center;
   color: #fff;
+  margin: 0;
   margin-top: 26px;
   max-width: 460px;
   text-align: center;
@@ -126,7 +127,7 @@
   }
   
   .techs__items {
-    margin-top: 50px;
+    margin-top: 40px;
   }
 }
 

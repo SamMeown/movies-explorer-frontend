@@ -11,6 +11,10 @@
   list-style: none;
 }
 
+.about__item {
+  flex: 1;
+}
+
 .about__item:not(:last-child) {
   margin-right: 40px;
 }
@@ -25,6 +29,7 @@
 }
 
 .about__item-text {
+  margin: 0;
   margin-top: 26px;
   color: #fff;
   font-size: 14px;

@@ -12,7 +12,7 @@
   /* width: 1000px; */
 }
 
-.movies-list__btn {
+.cards__btn {
   display: block;
   margin: 54px auto 0;
   width: 75vw;
@@ -30,11 +30,11 @@
   transition: opacity 0.3s ease, transform 0.1s ease;
 }
 
-.movies-list__btn:hover {
+.cards__btn:hover {
   opacity: 0.8;
 }
 
-.movies-list__btn:active {
+.cards__btn:active {
   transform: scale(0.92);
 }
 
@@ -76,7 +76,7 @@
     grid-gap: 22px 0px;
   }
   
-  .movies-list__btn {
+  .cards__btn {
     width: 75vw;
     max-width: 320px;
     /* min-width: 240px; */

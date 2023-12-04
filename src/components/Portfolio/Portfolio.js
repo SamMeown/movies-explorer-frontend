@@ -6,7 +6,7 @@ function Portfolio() {
       <h2 className="portfolio__header">Портфолио</h2>
       <ul className="portfolio__items">
         <li className="portfolio__item">
-          <a className="portfolio__link" href="https://github.com/SamMeown/how-to-learn" target="_blank" rel="noreferrer">
+          <a className="portfolio__link" href="https://sammeown.github.io/how-to-learn/" target="_blank" rel="noreferrer">
             <span className="portfolio__name">Статичный сайт</span><span className="portfolio__arrow">↗</span>
           </a>
         </li>

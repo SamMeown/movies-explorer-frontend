@@ -9,7 +9,8 @@ function Profile({name, onLogout}) {
     setEditMode(true);
   }
 
-  function handleSave() {
+  function handleSave(evt) {
+    evt.preventDefault();
     setEditMode(false);
   }
 
@@ -30,7 +31,6 @@ function Profile({name, onLogout}) {
                 value={name} />
               <span className="profile-form-error profile-form__input-error profile-form__input-error_el_name-input"></span>
             </label>
-            <hr className="profile-form__splitter" />
             <label className={`profile-form__field ${editMode ? "profile-form__field_mode_edit" : ""}`}>
               <span className="profile-form__label">E-mail</span>
               <input 

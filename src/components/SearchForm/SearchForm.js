@@ -4,6 +4,10 @@ import searchIcon from '../../images/search-icon.svg';
 
 function SearchForm() {
   return (
+    // Похоже в w3 валидаторе имеется баг из-за которого на тэг search всегда выскакивает ошибка.
+    // На stackoverflow тоже жалуются на это. Более того, валидацию не проходят даже примеры из 
+    // спецификации https://html.spec.whatwg.org/multipage/grouping-content.html#the-search-element 
+    // Я перепроверил по описанию - тэг search внутри тэга main - более чем нормально.
     <search className="search movies__search">
       <div className="search__form-container">
         <form className="search__form" name="search-form">

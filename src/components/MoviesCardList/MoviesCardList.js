@@ -8,7 +8,7 @@ function MoviesCardList({onLoadMore, children}) {
           children
         }
       </ul>
-      {onLoadMore && (<button className="cards__btn">Ещё</button>)}
+      {onLoadMore && (<button className="cards__btn" type="button">Ещё</button>)}
     </section>
   );
 }

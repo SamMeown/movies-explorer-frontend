@@ -18,7 +18,7 @@ function Navigation({loggedIn}) {
       <Link className="header__menu-link header__menu-link_type_button header__menu-link_alignment_right" to="/signin">Войти</Link>
     </nav>
     <nav className={`header__menu header__navigation ${loggedIn ? "header__navigation_visible" : ""}`}>
-      <button className={`header__menu-btn ${isMenuOpened && 'header__menu-btn_pressed'}`} onClick={handleToggleMenu}>
+      <button className={`header__menu-btn ${isMenuOpened && 'header__menu-btn_pressed'}`} type="button" onClick={handleToggleMenu}>
         <span className="header__menu-btn-icon"></span>
       </button>
       <div 

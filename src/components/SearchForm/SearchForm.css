@@ -8,11 +8,32 @@
 .search__form-container {
   padding-bottom: 69px;
   border-bottom: 1px solid #424242;
+
+  z-index: 0;
 }
 
 .search__form {
   display: block;
   width: 100%;
+  box-sizing: border-box;
+  border-radius: 9px;
+  position: relative;
+  background-color: #2f2f2f;
+}
+
+.search__form:has(.search__request-input:focus)::after {
+  content: ""; 
+  position: absolute; 
+  inset: 1px; 
+  background: linear-gradient(to bottom right, 
+      rgba(0, 94, 255, 0.4), rgba(239, 229, 180, 0.4)); 
+  filter: blur(4px); 
+  z-index: -1;
+}
+
+.search__form:has(.search__request-input:focus) {
+  outline: 1px solid #424242bb;
+  outline-offset: -1px;
 }
 
 .search__fieldset {
@@ -31,7 +52,6 @@
   flex-grow: 1;
   height: 72px;
   border-radius: 9px 0px 0px 9px;
-  background-color: #2f2f2f;
 
   border-right: 1px solid #424242;
   border-image: linear-gradient(to top, transparent 23%, #424242 23%, #424242 77%, transparent 77%) 1;
@@ -102,7 +122,6 @@
   align-items: center;
   height: 72px;
   border-radius: 0px 9px 9px 0px;
-  background-color: #2f2f2f;
   padding: 0 30px;
 }
 
@@ -140,6 +159,10 @@
   .search__form-container {
     padding-bottom: 44px;
   }
+
+  .search__form {
+    background-color: transparent;
+}
   
   .search__fieldset {
     flex-direction: column;
@@ -150,8 +173,35 @@
     flex-grow: 0;
     border-radius: 9px;
     border: none;
+
+    background-color: #2f2f2f;
+    position: relative;
   }
-   
+
+  .search__form:has(.search__request-input:focus)::after {
+    content: none; 
+  }
+
+  .search__form:has(.search__request-input:focus) {
+    outline: none;
+  }
+
+
+  .search__main-container:has(.search__request-input:focus)::after {
+    content: ""; 
+    position: absolute; 
+    inset: 1px; 
+    background: linear-gradient(to bottom right, 
+        rgba(0, 94, 255, 0.4), rgba(239, 229, 180, 0.4)); 
+    filter: blur(4px); 
+    z-index: -1;
+  }
+
+  .search__main-container:has(.search__request-input:focus) {
+    outline: 1px solid #424242bb;
+    outline-offset: -1px;
+  }
+  
   .search__submit-btn {
     margin-left: 22px;
     margin-right: 30px; 

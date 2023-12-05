@@ -1,9 +1,14 @@
 .logo {
   line-height: 0;
+  transition: opacity 0.3s ease;
 }
 
 .logo__image {
   width: 36px;
+}
+
+.logo:hover {
+  opacity: 0.8;
 }
 
 .header {

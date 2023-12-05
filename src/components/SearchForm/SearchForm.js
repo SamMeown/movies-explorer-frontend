@@ -19,7 +19,6 @@ function SearchForm() {
               </label>
               <button className="search__submit-btn" type="submit">Найти</button>
             </div>
-            <hr className="search__divider"/>
             <div className="search__checkbox-container">
               <FilterCheckbox />
             </div>

@@ -82,3 +82,11 @@ class MainApi {
     }).then(MainApi._handleResponse);
   }
 }
+
+const mainApi = new MainApi('https://api.moviesex.nomoredomainsrocks.ru', {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+export default mainApi;

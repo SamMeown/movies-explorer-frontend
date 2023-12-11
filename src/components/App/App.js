@@ -1,7 +1,6 @@
 import "./App.css";
 import Header from "../Header/Header"
 import Main from "../Main/Main"
-import BaseMovies from "../BaseMovies/BaseMovies";
 import Footer from "../Footer/Footer";
 import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
@@ -12,6 +11,7 @@ import { useState } from 'react';
 import Movies from "../Movies/Movies";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
+import SavedMovies from "../SavedMovies/SavedMovies";
 
 let example_cards = [
   {
@@ -65,7 +65,7 @@ function App() {
 
   const navigate = useNavigate();
 
-  function addUserMovie(movie) {
+  function addMovie(movie) {
     return mainApi.addMovie(userMovieFromMovie(movie))
       .then(userMovie => {
         setUserMovies([...userMovies, userMovie])
@@ -75,12 +75,16 @@ function App() {
       });
   }
 
-  function deleteUserMovie(movieId) {
+  function deleteMovie(movieId) {
     const userMovieId = userMovies.find(m => m.movieId === movieId)?._id;
     if (!userMovieId) {
       return;
     }
 
+    return deleteUserMovie(userMovieId)
+  }
+
+  function deleteUserMovie(userMovieId) {
     return mainApi.deleteMovie(userMovieId)
       .then(data => {
         setUserMovies(state => {
@@ -90,7 +94,6 @@ function App() {
       .catch(err => {
         console.log(`Ошибка ${err}`);
       });
-
   }
 
   function userMovieFromMovie(movie) {
@@ -111,9 +114,9 @@ function App() {
 
   function handleMovieLike(movie, isLiked) {
     if (isLiked) {
-      deleteUserMovie(movie.id);
+      deleteMovie(movie.id);
     } else {
-      addUserMovie(movie);
+      addMovie(movie);
     }
     
     // setCards(state => {
@@ -157,6 +160,16 @@ function App() {
 
   function handleSearch() {
     getMovies();
+    if (!userMovies) {
+      getUserMovies();
+    }
+  }
+
+  function handleUserMovieDelete(userMovie) {
+    deleteUserMovie(userMovie._id);
+  }
+
+  function handleSavedMoviesLoad() {
     getUserMovies();
   }
 
@@ -185,10 +198,10 @@ function App() {
           <Route path="/saved-movies" element={(
             <>
               <Header loggedIn={loggedIn}/>
-              <BaseMovies 
-                cards={savedCards}
-                onCardDelete={handleCardDelete}  
-                inProgress={false}/>
+              <SavedMovies 
+                userMovies={userMovies} 
+                onLoad={handleSavedMoviesLoad} 
+                onUserMovieDelete={handleUserMovieDelete}/>
               <Footer />
             </>
           )}/>

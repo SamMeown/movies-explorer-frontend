@@ -14,7 +14,7 @@ function MoviesCard({card, onCardLike, onCardDelete}) {
 
   return (
     <li className="card">
-      <img className="card__image" src={card.link} alt={card.name}/>
+      <img className="card__image" src={card.imageLink} alt={card.name}/>
       <div className="card__name-container">
         <h2 className="card__name overflow-ready-string">{card.name}</h2>
         {onCardLike 

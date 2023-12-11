@@ -4,11 +4,11 @@ import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function BaseMovies({cards, onCardLike, onCardDelete, onLoadMore, onSearch, request, inProgress}) {
+function BaseMovies({cards, onCardLike, onCardDelete, onLoadMore, onSearch, onRequestChanged, request, inProgress}) {
 
   return (
     <main className="movies">
-      <SearchForm request={request} onSearch={onSearch}/>
+      <SearchForm request={request} onSearch={onSearch} onRequestChanged={onRequestChanged}/>
       {inProgress 
         ? <Preloader className="movies__preloader" /> 
         : <MoviesCardList onLoadMore={onLoadMore}>{

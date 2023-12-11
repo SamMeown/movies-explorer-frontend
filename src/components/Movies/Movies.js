@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import BaseMovies from '../BaseMovies/BaseMovies';
 import './Movies.css'
 
-//{cards, onCardLike, onCardDelete, onLoadMore, onSearch, request, inProgress}
 
 const moviesBaseUrl = 'https://api.nomoreparties.co';
 
@@ -34,6 +33,7 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
 
   function handleSearch({request, short}) {
     setSearchRequest({request, short})
+    setIsDirtyRequest(false);
     if (!movies) {
       setInProgress(true);
       onSearch();
@@ -50,8 +50,25 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
     onMovieLike(movie, card.isLiked);
   }
 
+  function handleRequestChanged(values) {
+    if (!searchRequest?.request?.length) {
+      return;
+    }
+
+    if (searchRequest.request !== values.request) {
+      setIsDirtyRequest(true);
+      return;
+    }
+
+    if (!isDirtyRequest && searchRequest.request !== values.short){
+      setSearchRequest(values);
+    }
+  }
+
   const [inProgress, setInProgress] = useState(false);
   const [searchRequest, setSearchRequest] = useState(null);
+
+  const [isDirtyRequest, setIsDirtyRequest] = useState(true);
 
   const [filteredMovies, setFilteredMovies] = useState([]);
 
@@ -81,6 +98,7 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
     <BaseMovies 
       cards={shownCards} 
       onSearch={handleSearch} 
+      onRequestChanged={handleRequestChanged}
       inProgress={inProgress} 
       onCardLike={handleCardLike} 
       onLoadMore={numCardsToShow < filteredMovies.length && handleLoadMore}

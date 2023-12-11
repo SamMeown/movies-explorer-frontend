@@ -2,16 +2,33 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import './SearchForm.css';
 import searchIcon from '../../images/search-icon.svg';
 import useForm from '../../hooks/form';
+import { useEffect, useRef } from 'react';
 
-function SearchForm({request, onSearch}) {
+function SearchForm({request, onRequestChanged, onSearch}) {
   const {values, setValues, handleChange} = useForm({
     request: request?.request ?? "",
     short: request?.short ?? false
     });
 
+  const isMount = useRef(true);
+
+  useEffect(() => {
+    if (isMount.current) {
+      isMount.current = false;
+      return;
+    }
+
+    console.log(`Request changed to ${values}`);
+    onRequestChanged && onRequestChanged(values);
+  }, [values]);
+
   function handleSubmit(evt) {
     evt.preventDefault();
     onSearch(values);
+  }
+
+  function handleShortChanged(evt) {
+    handleChange(evt);
   }
 
   return (

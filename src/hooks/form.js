@@ -4,7 +4,6 @@ export default function useForm(inputValues) {
   const [values, setValues] = useState(inputValues);
 
   const handleChange = (evt) => {
-    console.log(evt);
     const {value, checked, type, name} = evt.target;
     setValues({
       ...values, 

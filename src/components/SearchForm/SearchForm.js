@@ -10,25 +10,27 @@ function SearchForm({request, onRequestChanged, onSearch}) {
     short: request?.short ?? false
     });
 
-  const isMount = useRef(true);
+  const dontNotify = useRef(true);
 
   useEffect(() => {
-    if (isMount.current) {
-      isMount.current = false;
+    if (request) {
+      setValues(request);
+      dontNotify.current = true;
+    } 
+  }, [request]);
+
+  useEffect(() => {
+    if (dontNotify.current) {
+      dontNotify.current = false;
       return;
     }
 
-    console.log(`Request changed to ${values}`);
     onRequestChanged && onRequestChanged(values);
   }, [values]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
     onSearch(values);
-  }
-
-  function handleShortChanged(evt) {
-    handleChange(evt);
   }
 
   return (
@@ -48,8 +50,7 @@ function SearchForm({request, onRequestChanged, onSearch}) {
               <button className="search__submit-btn" type="submit">Найти</button>
             </div>
             <div className="search__checkbox-container">
-              {/* <FilterCheckbox name="short" value={values.short} onChange={handleChange} /> */}
-              <FilterCheckbox name="short" onChange={handleChange} />
+              <FilterCheckbox name="short" value={values.short} onChange={handleChange} />
             </div>
           </fieldset>
         </form>

@@ -24,7 +24,7 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
       name: movie.nameRU,
       imageLink: `${moviesBaseUrl}${movie.image.url}`,
       trailerLink: movie.trailerLink,
-      isLiked: userMovies.some(userMovie => userMovie.movieId === movie.id),
+      isLiked: (userMovies ?? storedUserMovies).some(userMovie => userMovie.movieId === movie.id),
       time: `${Math.trunc(movie.duration / 60)}ч${movie.duration % 60}м`
     };
 
@@ -34,6 +34,7 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
   function handleSearch({request, short}) {
     setSearchRequest({request, short})
     setIsDirtyRequest(false);
+    setFilteredMovies(null);
     if (!movies) {
       setInProgress(true);
       onSearch();
@@ -46,11 +47,13 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
   }
 
   function handleCardLike(card) {
-    const movie = movies.find(m => m.id === card.id);
-    onMovieLike(movie, card.isLiked);
+    const movie = filteredMovies.find(m => m.id === card.id);
+    const userMovie = (userMovies ?? storedUserMovies).find(m => m.movieId === card.id);
+    onMovieLike(movie, userMovie);
   }
 
   function handleRequestChanged(values) {
+    setInitialSearchRequest(null);
     if (!searchRequest?.request?.length) {
       return;
     }
@@ -62,46 +65,88 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
 
     if (!isDirtyRequest && searchRequest.request !== values.short){
       setSearchRequest(values);
+      setFilteredMovies(null);
+
+      if (!movies) {
+        setInProgress(true);
+        onSearch();
+        return;
+      }
     }
   }
 
   const [inProgress, setInProgress] = useState(false);
   const [searchRequest, setSearchRequest] = useState(null);
+  const [initialSearchRequest, setInitialSearchRequest] = useState(null);
 
   const [isDirtyRequest, setIsDirtyRequest] = useState(true);
 
-  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState(null);
+
+  const [storedUserMovies, setStoredUserMovies] = useState(null);
 
   const [shownCards, setShownCards] = useState([]);
   const [numCardsToShow, setNumCardsToShow] = useState(0);
 
   useEffect(() => {
-    setInProgress((!movies || !userMovies) && searchRequest);
-  }, [movies, userMovies, searchRequest]);
+    const restoredState = JSON.parse(localStorage.getItem('moviesState'));
+    if (!restoredState) {
+      return;
+    }
+    
+    setSearchRequest(restoredState.searchRequest);
+    setFilteredMovies(restoredState.filteredMovies);
+    setStoredUserMovies(restoredState.filteredUserMovies);
+    setNumCardsToShow(restoredState.numCardsToShow);
+
+    setInitialSearchRequest(restoredState.searchRequest);
+    setIsDirtyRequest(false);
+    
+  }, []);
+
+  useEffect(() => {
+    if (movies && userMovies) {
+      setInProgress(false);
+    }
+  }, [movies, userMovies]);
 
   useEffect(() => {
     if (!movies || !userMovies || !searchRequest) {
       return;
     }
 
-    setFilteredMovies(filterMovies(movies, searchRequest));
-    setNumCardsToShow(16);
+    if (!filteredMovies) {
+      const newFilteredMovies = filterMovies(movies, searchRequest);
+      setFilteredMovies(newFilteredMovies);
+      setNumCardsToShow(16);
+    }
 
   }, [movies, userMovies, searchRequest]);
 
   useEffect(() => {
-    console.log(filteredMovies.map(cardFromMovie).slice(0, numCardsToShow));
-    setShownCards(filteredMovies.map(cardFromMovie).slice(0, numCardsToShow))
-  }, [filteredMovies, numCardsToShow]);
+
+    if (!filteredMovies) {
+      return;
+    }
+    
+    setShownCards(filteredMovies.map(cardFromMovie).slice(0, numCardsToShow));
+
+    const filteredUserMovies = (userMovies ?? storedUserMovies).filter(userMovie => filteredMovies.some(m => m.id === userMovie.movieId));
+    localStorage.setItem('moviesState', JSON.stringify({
+      searchRequest, filteredMovies, filteredUserMovies, numCardsToShow
+    }));
+
+  }, [filteredMovies, userMovies, numCardsToShow]);
 
   return (
     <BaseMovies 
       cards={shownCards} 
+      request={initialSearchRequest}
       onSearch={handleSearch} 
       onRequestChanged={handleRequestChanged}
       inProgress={inProgress} 
       onCardLike={handleCardLike} 
-      onLoadMore={numCardsToShow < filteredMovies.length && handleLoadMore}
+      onLoadMore={filteredMovies && numCardsToShow < filteredMovies.length && handleLoadMore}
     />
   );
 }

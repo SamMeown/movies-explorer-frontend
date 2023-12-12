@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import BaseMovies from '../BaseMovies/BaseMovies';
 import './Movies.css'
+import useWindowSize from '../../hooks/windowSize';
 
 
 const moviesBaseUrl = 'https://api.nomoreparties.co';
 
 function Movies({movies, userMovies, onMovieLike, onSearch}) {
-  
+
   function filterMovies(movies, {request, short}) {
     request = request.toLowerCase();
     return movies.filter(movie => {
@@ -43,7 +44,7 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
   }
 
   function handleLoadMore() {
-    setNumCardsToShow(numCardsToShow + 4);
+    setNumCardsToShow(numCardsToShow + getRowsIncrement(windowSize.width) * getNumCardsInRow(windowSize.width));
   }
 
   function handleCardLike(card) {
@@ -74,6 +75,37 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
       }
     }
   }
+
+  function getNumCardsInRow(width) {
+    if (width > 1024) {
+      return 4;
+    } else if (width > 768) {
+      return 3;
+    } else if (width > 480) {
+      return 2;
+    } else {
+      return 1;
+    }
+  }
+
+  function getInitialRows(width) {
+    if (width > 480) {
+      return 4;
+    } else {
+      return 5;
+    }
+  }
+
+  function getRowsIncrement(width) {
+    if (width > 480) {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
+
+  const windowSize = useWindowSize();
+  console.log(windowSize);
 
   const [inProgress, setInProgress] = useState(false);
   const [searchRequest, setSearchRequest] = useState(null);
@@ -118,10 +150,21 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
     if (!filteredMovies) {
       const newFilteredMovies = filterMovies(movies, searchRequest);
       setFilteredMovies(newFilteredMovies);
-      setNumCardsToShow(16);
+      // setNumCardsToShow(16);
+      setNumCardsToShow(getInitialRows(windowSize.width) * getNumCardsInRow(windowSize.width));
     }
 
   }, [movies, userMovies, searchRequest]);
+
+  useEffect(() => {
+    if (!numCardsToShow) {
+      return;
+    }
+
+    const numRows = Math.ceil(numCardsToShow / getNumCardsInRow(windowSize.width));
+    setNumCardsToShow(numRows * getNumCardsInRow(windowSize.width));
+
+  }, [windowSize.width]);
 
   useEffect(() => {
 

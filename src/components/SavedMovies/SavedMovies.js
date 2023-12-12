@@ -30,6 +30,7 @@ function SavedMovies({userMovies, onLoad, onUserMovieDelete}) {
 
   function handleSearch({request, short}) {
     setSearchRequest({request, short})
+    setIsDirtyRequest(false);
   }
 
   function handleCardDelete(card) {
@@ -38,8 +39,21 @@ function SavedMovies({userMovies, onLoad, onUserMovieDelete}) {
     onUserMovieDelete(userMovie);
   }
 
+  function handleRequestChanged(values) {
+    if (searchRequest.request !== values.request) {
+      setIsDirtyRequest(true);
+      return;
+    }
+
+    if (!isDirtyRequest && searchRequest.request !== values.short){
+      setSearchRequest(values);
+    }
+  }
+
   const [inProgress, setInProgress] = useState(false);
   const [searchRequest, setSearchRequest] = useState({request: "", short: false});
+
+  const [isDirtyRequest, setIsDirtyRequest] = useState(false);
 
   const [shownCards, setShownCards] = useState([]);
 
@@ -67,6 +81,7 @@ function SavedMovies({userMovies, onLoad, onUserMovieDelete}) {
     <BaseMovies 
       cards={shownCards} 
       onSearch={handleSearch} 
+      onRequestChanged={handleRequestChanged} 
       inProgress={inProgress} 
       onCardDelete={handleCardDelete} />
   );

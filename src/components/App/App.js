@@ -13,6 +13,7 @@ import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 
 const moviesBaseUrl = 'https://api.nomoreparties.co';
@@ -186,7 +187,7 @@ function App() {
                 <Footer />
               </>
             )} />
-            <Route path="/movies" element={(
+            <Route path="/movies" element={<ProtectedRoute loggedIn={loggedIn} element={() => (
               <>
                 <Header loggedIn={loggedIn}/>
                 <Movies
@@ -197,8 +198,8 @@ function App() {
                   error={moviesError || userMoviesError} />
                 <Footer />
               </>
-            )}/>
-            <Route path="/saved-movies" element={(
+            )} />}/>
+            <Route path="/saved-movies" element={<ProtectedRoute loggedIn={loggedIn} element={() => (
               <>
                 <Header loggedIn={loggedIn}/>
                 <SavedMovies 
@@ -208,13 +209,13 @@ function App() {
                   error={userMoviesError} />
                 <Footer />
               </>
-            )}/>
-            <Route path="/profile" element={(
+            )} />}/>
+            <Route path="/profile" element={<ProtectedRoute loggedIn={loggedIn} element={() => (
               <>
                 <Header loggedIn={loggedIn}/>
                 <Profile name="Виталий" onLogout={handleLogout}/>
               </>
-            )}/>
+            )} />}/>
             <Route path="/signin" element={(
               <Login onLogin={handleLogin}/>
             )}/>

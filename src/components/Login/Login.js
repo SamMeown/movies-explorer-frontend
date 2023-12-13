@@ -1,11 +1,32 @@
 import './Login.css'
 import MainWithForm from '../MainWithForm/MainWithForm'
+import { useFormWithValidation } from '../../hooks/form';
+import { useEffect } from 'react';
 
 function Login({onLogin}) {
 
+  const {values, errors, isValid, handleChange, resetForm} = useFormWithValidation(
+    {
+      email: "",
+      password: ""
+    }
+  );
+
+  useEffect(() => {
+    return () => { 
+      resetForm();
+    }
+  }, []);
+
   function handleLogin(evt) {
     evt.preventDefault();
-    onLogin();
+
+    const {email, password} = values;
+    if (!email || !password) {
+      return;
+    }
+
+    onLogin(email, password);
   }
 
   return (
@@ -16,16 +37,33 @@ function Login({onLogin}) {
       linkText="Регистрация"
       linkRef="/signup"
       onSubmit={handleLogin}
+      isValid={isValid}
     >
       <label className="form__field">
         <span className="form__label">E-mail</span>
-        <input className="form__input" id="email-input" type="email" name="email" placeholder="адрес электронной почты" minLength="3" maxLength="100" required value="pochta@yandex.ru"/>
-        <span className="form-error form__input-error form__input-error_el_email-input"></span>
+        <input 
+          className={`form__input ${errors.email ? "form__input_type_error" : ""}`} 
+          id="email-input" type="email" name="email" 
+          placeholder="адрес электронной почты" 
+          minLength="3" maxLength="100" required 
+          value={values.email} onChange={handleChange}
+        />
+        <span 
+          className={`form-error form__input-error form__input-error_el_email-input ${errors.email ? "form-error_active" : ""}`}
+        >{errors.email}</span>
       </label>
       <label className="form__field">
         <span className="form__label">Пароль</span>
-        <input className="form__input" id="password-input" type="password" name="password" placeholder="пароль (от 6 символов)" minLength="6" maxLength="30" required value="123"/>
-        <span className="form-error form__input-error form__input-error_el_password-input"></span>
+        <input 
+          className={`form__input ${errors.password ? "form__input_type_error" : ""}`} 
+          id="password-input" type="password" name="password" 
+          placeholder="пароль (от 6 символов)" 
+          minLength="4" maxLength="30" required 
+          value={values.password} onChange={handleChange}
+        />
+        <span 
+          className={`form-error form__input-error form__input-error_el_email-input ${errors.password ? "form-error_active" : ""}`}
+        >{errors.password}</span>
       </label>
     </MainWithForm>
   );

@@ -121,7 +121,7 @@ function Movies({movies, userMovies, onMovieLike, onSearch, error}) {
 
   const [storedUserMovies, setStoredUserMovies] = useState(null);
 
-  const [shownCards, setShownCards] = useState([]);
+  const [shownCards, setShownCards] = useState(null);
   const [numCardsToShow, setNumCardsToShow] = useState(0);
 
   useEffect(() => {

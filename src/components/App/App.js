@@ -7,17 +7,19 @@ import Login from "../Login/Login";
 import Register from "../Register/Register";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Movies from "../Movies/Movies";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import SavedMovies from "../SavedMovies/SavedMovies";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 
 const moviesBaseUrl = 'https://api.nomoreparties.co';
 
 function App() {
 
+  const [currentUser, setCurrentUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(true);
 
   const [movies, setMovies] = useState(null);
@@ -28,6 +30,22 @@ function App() {
 
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loggedIn) {
+      setCurrentUser(null);
+      return;
+    }
+
+    mainApi.getUserInfo()
+      .then(data => {
+        console.log(`Got user data: `, data);
+        setCurrentUser(data);
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+      });
+  }, [loggedIn]);
 
   function addMovie(movie) {
     return mainApi.addMovie(userMovieFromMovie(movie))
@@ -76,12 +94,22 @@ function App() {
     }
   }
 
-  function handleLogin() {
-    setLoggedIn(true);
-    navigate('/movies');
+  function handleLogin(email, password) {
+    mainApi.signin(email, password)
+      .then(data => {
+        setLoggedIn(true);
+        navigate('/movies');
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+      })
   }
 
   function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('moviesState');
+    setMovies(null);
+    setUserMovies(null);
     setLoggedIn(false);
     navigate('/');
   }
@@ -130,53 +158,55 @@ function App() {
   return (
     <div className="page">
       <div className="page__content">
-        <Routes>
-          <Route path="/" element={(
-            <>
-              <Header loggedIn={loggedIn}/>
-              <Main />
-              <Footer />
-            </>
-          )} />
-          <Route path="/movies" element={(
-            <>
-              <Header loggedIn={loggedIn}/>
-              <Movies
-                movies={movies}
-                userMovies={userMovies}
-                onMovieLike={handleMovieLike} 
-                onSearch={handleSearch}
-                error={moviesError || userMoviesError} />
-              <Footer />
-            </>
-          )}/>
-          <Route path="/saved-movies" element={(
-            <>
-              <Header loggedIn={loggedIn}/>
-              <SavedMovies 
-                userMovies={userMovies} 
-                onLoad={handleSavedMoviesLoad} 
-                onUserMovieDelete={handleUserMovieDelete}
-                error={userMoviesError} />
-              <Footer />
-            </>
-          )}/>
-          <Route path="/profile" element={(
-            <>
-              <Header loggedIn={loggedIn}/>
-              <Profile name="Виталий" onLogout={handleLogout}/>
-            </>
-          )}/>
-          <Route path="/signin" element={(
-            <Login onLogin={handleLogin}/>
-          )}/>
-          <Route path="/signup" element={(
-            <Register />
-          )}/>
-          <Route path="*" element={(
-            <PageNotFound />
-          )} />
-        </Routes>
+        <CurrentUserContext.Provider value={currentUser}>
+          <Routes>
+            <Route path="/" element={(
+              <>
+                <Header loggedIn={loggedIn}/>
+                <Main />
+                <Footer />
+              </>
+            )} />
+            <Route path="/movies" element={(
+              <>
+                <Header loggedIn={loggedIn}/>
+                <Movies
+                  movies={movies}
+                  userMovies={userMovies}
+                  onMovieLike={handleMovieLike} 
+                  onSearch={handleSearch}
+                  error={moviesError || userMoviesError} />
+                <Footer />
+              </>
+            )}/>
+            <Route path="/saved-movies" element={(
+              <>
+                <Header loggedIn={loggedIn}/>
+                <SavedMovies 
+                  userMovies={userMovies} 
+                  onLoad={handleSavedMoviesLoad} 
+                  onUserMovieDelete={handleUserMovieDelete}
+                  error={userMoviesError} />
+                <Footer />
+              </>
+            )}/>
+            <Route path="/profile" element={(
+              <>
+                <Header loggedIn={loggedIn}/>
+                <Profile name="Виталий" onLogout={handleLogout}/>
+              </>
+            )}/>
+            <Route path="/signin" element={(
+              <Login onLogin={handleLogin}/>
+            )}/>
+            <Route path="/signup" element={(
+              <Register />
+            )}/>
+            <Route path="*" element={(
+              <PageNotFound />
+            )} />
+          </Routes>
+        </CurrentUserContext.Provider>
       </div>
     </div>
   );

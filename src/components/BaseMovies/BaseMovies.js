@@ -18,11 +18,11 @@ function BaseMovies({cards, onCardLike, onCardDelete, onLoadMore, onSearch, onRe
           return (
             <Preloader className="movies__preloader" />
           );
-        } else if (!cards?.length) {
+        } else if (cards && !cards.length) {
           return (
             <p className="movies__message">Ничего не найдено</p>
           );
-        } else {
+        } else if (cards) {
           return (
             <MoviesCardList onLoadMore={onLoadMore}>{
               cards.map(card => (

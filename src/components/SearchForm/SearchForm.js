@@ -1,8 +1,9 @@
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import './SearchForm.css';
 import searchIcon from '../../images/search-icon.svg';
-import useForm from '../../hooks/form';
+import { useForm } from '../../hooks/form';
 import { useEffect, useRef, useState } from 'react';
+
 
 function SearchForm({request, onRequestChanged, onSearch}) {
   const {values, setValues, handleChange} = useForm({

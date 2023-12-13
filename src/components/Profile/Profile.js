@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './Profile.css'
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function Profile({name, onLogout}) {
 
+  const currentUser = useContext(CurrentUserContext);
   const [editMode, setEditMode] = useState(false);
 
   function handleEdit() {
@@ -18,7 +20,7 @@ function Profile({name, onLogout}) {
     <main className="profile">
       <section className="profile-content profile__content">
         <form className="profile-form profile-content__form">
-        <h1 className="profile-form__title">{`Привет, ${name}!`}</h1>
+        <h1 className="profile-form__title">{`Привет, ${currentUser.name}!`}</h1>
           <fieldset className="profile-form__fieldset">
             <label className={`profile-form__field ${editMode ? "profile-form__field_mode_edit" : ""}`}>
               <span className="profile-form__label">Имя</span>

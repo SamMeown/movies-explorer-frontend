@@ -12,16 +12,23 @@ class MainApi {
     return Promise.reject(res.status);
   }
 
-  _headers() {
+  _getStoredToken() {
+    return localStorage.getItem('token');
+  }
+
+  _headers_with_token(token) {
     const headers = {
       ...this._base_headers
     };
-    const token = localStorage.getItem('token');
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
 
     return headers;
+  }
+
+  _headers() {
+    return this._headers_with_token(this._getStoredToken());
   }
 
   getMovies() {
@@ -46,8 +53,12 @@ class MainApi {
   }
 
   getUserInfo() {
+    return this.getUserInfoForToken(this._getStoredToken());
+  }
+
+  getUserInfoForToken(token) {
     return fetch(`${this._base_url}/users/me`, {
-      headers: this._headers()
+      headers: this._headers_with_token(token)
     }).then(MainApi._handleResponse);
   }
 

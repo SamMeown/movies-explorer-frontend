@@ -20,7 +20,7 @@ const moviesBaseUrl = 'https://api.nomoreparties.co';
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const [movies, setMovies] = useState(null);
   const [userMovies, setUserMovies] = useState(null);
@@ -46,6 +46,25 @@ function App() {
         console.log(`Ошибка ${err}`);
       });
   }, [loggedIn]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      mainApi.getUserInfoForToken(token)
+        .then(info => {
+          console.log(`Got user data (auth): `, info);
+          if (!info.email) {
+            return;
+          }
+
+          setLoggedIn(true);
+          navigate('/movies');
+        })
+        .catch(err => {
+          console.log(`Ошибка ${err}`);
+        });
+    }
+  }, []);
 
   function addMovie(movie) {
     return mainApi.addMovie(userMovieFromMovie(movie))

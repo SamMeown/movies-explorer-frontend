@@ -6,7 +6,7 @@ import useWindowSize from '../../hooks/windowSize';
 
 const moviesBaseUrl = 'https://api.nomoreparties.co';
 
-function Movies({movies, userMovies, onMovieLike, onSearch}) {
+function Movies({movies, userMovies, onMovieLike, onSearch, error}) {
 
   function filterMovies(movies, {request, short}) {
     request = request.toLowerCase();
@@ -150,7 +150,6 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
     if (!filteredMovies) {
       const newFilteredMovies = filterMovies(movies, searchRequest);
       setFilteredMovies(newFilteredMovies);
-      // setNumCardsToShow(16);
       setNumCardsToShow(getInitialRows(windowSize.width) * getNumCardsInRow(windowSize.width));
     }
 
@@ -188,6 +187,7 @@ function Movies({movies, userMovies, onMovieLike, onSearch}) {
       onSearch={handleSearch} 
       onRequestChanged={handleRequestChanged}
       inProgress={inProgress} 
+      error={error} 
       onCardLike={handleCardLike} 
       onLoadMore={filteredMovies && numCardsToShow < filteredMovies.length && handleLoadMore}
     />

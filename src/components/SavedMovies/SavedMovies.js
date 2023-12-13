@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import BaseMovies from '../BaseMovies/BaseMovies';
 import './SavedMovies.css'
 
-function SavedMovies({userMovies, onLoad, onUserMovieDelete}) {
+function SavedMovies({userMovies, onLoad, onUserMovieDelete, error}) {
 
   function filterMovies(movies, {request, short}) {
     request = request.toLowerCase();
@@ -83,6 +83,7 @@ function SavedMovies({userMovies, onLoad, onUserMovieDelete}) {
       onSearch={handleSearch} 
       onRequestChanged={handleRequestChanged} 
       inProgress={inProgress} 
+      error={error} 
       onCardDelete={handleCardDelete} />
   );
 }

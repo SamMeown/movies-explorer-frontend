@@ -23,6 +23,9 @@ function App() {
   const [movies, setMovies] = useState(null);
   const [userMovies, setUserMovies] = useState(null);
 
+  const [moviesError, setMoviesError] = useState(false);
+  const [userMoviesError, setUserMoviesError] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -84,18 +87,28 @@ function App() {
   }
 
   function getMovies() {
+    setMoviesError(false);
     return moviesApi.getMovies()
-      .then(setMovies)
+      .then((data) => {
+        setMovies(data);
+        setMoviesError(false);
+      })
       .catch(err => {
         console.log(`Ошибка ${err}`);
+        setMoviesError(true);
       });
   }
 
   function getUserMovies() {
+    setUserMoviesError(false);
     return mainApi.getMovies()
-      .then(setUserMovies)
+      .then((data) => {
+        setUserMovies(data);
+        setUserMoviesError(false);
+      })
       .catch(err => {
         console.log(`Ошибка ${err}`);
+        setUserMoviesError(true);
       });
   }
 
@@ -132,7 +145,8 @@ function App() {
                 movies={movies}
                 userMovies={userMovies}
                 onMovieLike={handleMovieLike} 
-                onSearch={handleSearch} />
+                onSearch={handleSearch}
+                error={moviesError || userMoviesError} />
               <Footer />
             </>
           )}/>
@@ -142,7 +156,8 @@ function App() {
               <SavedMovies 
                 userMovies={userMovies} 
                 onLoad={handleSavedMoviesLoad} 
-                onUserMovieDelete={handleUserMovieDelete}/>
+                onUserMovieDelete={handleUserMovieDelete}
+                error={userMoviesError} />
               <Footer />
             </>
           )}/>

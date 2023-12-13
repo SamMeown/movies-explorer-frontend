@@ -36,7 +36,6 @@ function SavedMovies({userMovies, onLoad, onUserMovieDelete, error}) {
 
   function handleCardDelete(card) {
     const userMovie = userMovies.find(m => m._id === card.id);
-    console.log(userMovie);
     onUserMovieDelete(userMovie);
   }
 

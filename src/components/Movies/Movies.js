@@ -109,7 +109,6 @@ function Movies({movies, userMovies, onMovieLike, onSearch, error}) {
   }
 
   const windowSize = useWindowSize();
-  console.log(windowSize);
 
   const [inProgress, setInProgress] = useState(false);
   const [searchRequest, setSearchRequest] = useState(null);

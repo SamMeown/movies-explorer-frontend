@@ -33,14 +33,18 @@ function Movies({movies, userMovies, onMovieLike, onSearch, error}) {
   }
 
   function handleSearch({request, short}) {
+    if (!request.length) {
+      return {error:"Нужно ввести ключевое слово"};
+    }
     setSearchRequest({request, short})
     setIsDirtyRequest(false);
     setFilteredMovies(null);
     if (!movies) {
       setInProgress(true);
       onSearch();
-      return;
     }
+
+    return {error: null};
   }
 
   function handleLoadMore() {

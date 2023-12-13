@@ -31,6 +31,7 @@ function SavedMovies({userMovies, onLoad, onUserMovieDelete, error}) {
   function handleSearch({request, short}) {
     setSearchRequest({request, short})
     setIsDirtyRequest(false);
+    return {error: null};
   }
 
   function handleCardDelete(card) {

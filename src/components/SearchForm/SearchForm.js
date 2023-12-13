@@ -2,7 +2,7 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import './SearchForm.css';
 import searchIcon from '../../images/search-icon.svg';
 import useForm from '../../hooks/form';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function SearchForm({request, onRequestChanged, onSearch}) {
   const {values, setValues, handleChange} = useForm({
@@ -11,6 +11,8 @@ function SearchForm({request, onRequestChanged, onSearch}) {
     });
 
   const dontNotify = useRef(true);
+
+  const [requestError, setRequestError] = useState("");
 
   useEffect(() => {
     if (request) {
@@ -28,9 +30,17 @@ function SearchForm({request, onRequestChanged, onSearch}) {
     onRequestChanged && onRequestChanged(values);
   }, [values]);
 
+  useEffect(() => {
+    setRequestError("");
+  }, [values]);
+
   function handleSubmit(evt) {
     evt.preventDefault();
-    onSearch(values);
+    
+    const {error} = onSearch(values);
+    if (error) {
+      setRequestError(error);
+    }
   }
 
   return (
@@ -45,7 +55,10 @@ function SearchForm({request, onRequestChanged, onSearch}) {
             <div className="search__main-container">
               <label className="search__request-label">
                 <img className="search__request-icon" src={searchIcon} alt="иконка поиска" />
-                <input className="search__request-input" type="text" name="request" placeholder="Фильм" minLength="2" maxLength="200" value={values.request}  onChange={handleChange}/>
+                <input className="search__request-input" type="text" name="request" placeholder="Фильм" maxLength="200" value={values.request}  onChange={handleChange}/>
+                <span 
+                  className={`search__input-error ${requestError ? "search__input-error_active" : ""}`}
+                >{requestError}</span>
               </label>
               <button className="search__submit-btn" type="submit">Найти</button>
             </div>

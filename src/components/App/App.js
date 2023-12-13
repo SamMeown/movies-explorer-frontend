@@ -29,6 +29,8 @@ function App() {
   const [moviesError, setMoviesError] = useState(false);
   const [userMoviesError, setUserMoviesError] = useState(false);
 
+  const [loginError, setLoginError] = useState(null);
+
 
   const navigate = useNavigate();
 
@@ -115,6 +117,7 @@ function App() {
   }
 
   function handleLogin(email, password) {
+    setLoginError(null);
     mainApi.signin(email, password)
       .then(data => {
         setLoggedIn(true);
@@ -122,6 +125,7 @@ function App() {
       })
       .catch(err => {
         console.log(`Ошибка ${err}`);
+        setLoginError(err);
       })
   }
 
@@ -217,7 +221,7 @@ function App() {
               </>
             )} />}/>
             <Route path="/signin" element={(
-              <Login onLogin={handleLogin}/>
+              <Login onLogin={handleLogin} error={loginError}/>
             )}/>
             <Route path="/signup" element={(
               <Register />

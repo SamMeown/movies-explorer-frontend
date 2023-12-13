@@ -3,7 +3,7 @@ import MainWithForm from '../MainWithForm/MainWithForm'
 import { useFormWithValidation } from '../../hooks/form';
 import { useEffect } from 'react';
 
-function Login({onLogin}) {
+function Login({onLogin, error}) {
 
   const {values, errors, isValid, handleChange, resetForm} = useFormWithValidation(
     {
@@ -38,6 +38,7 @@ function Login({onLogin}) {
       linkRef="/signup"
       onSubmit={handleLogin}
       isValid={isValid}
+      error={error}
     >
       <label className="form__field">
         <span className="form__label">E-mail</span>

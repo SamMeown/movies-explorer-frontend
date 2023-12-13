@@ -9,11 +9,11 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
-import SavedMovies from "../SavedMovies/SavedMovies";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import MoviesPage from "../MoviesPage/MoviesPage";
+import SavedMoviesPage from "../SavedMoviesPage/SavedMoviesPage";
 
 
 const moviesBaseUrl = 'https://api.nomoreparties.co';
@@ -235,18 +235,15 @@ function App() {
                 onSearch={handleSearch}
                 error={moviesError || userMoviesError} />
             }/>
-            <Route path="/saved-movies" element={<ProtectedRoute loggedIn={loggedIn} element={() => (
-              <>
-                <Header loggedIn={loggedIn}/>
-                <SavedMovies 
-                  userMovies={userMovies} 
-                  onLoad={handleSavedMoviesLoad} 
-                  onUserMovieDelete={handleUserMovieDelete}
-                  error={userMoviesError} />
-                <Footer />
-              </>
-            )} />}/>
-
+            <Route path="/saved-movies" element={
+              <ProtectedRoute 
+                element={SavedMoviesPage} 
+                loggedIn={loggedIn} 
+                userMovies={userMovies} 
+                onLoad={handleSavedMoviesLoad} 
+                onUserMovieDelete={handleUserMovieDelete}
+                error={userMoviesError} />
+            }/>
             <Route path="/profile" element={
                 <ProtectedRoute 
                   element={ProfilePage}

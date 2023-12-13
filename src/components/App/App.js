@@ -30,6 +30,7 @@ function App() {
   const [userMoviesError, setUserMoviesError] = useState(false);
 
   const [loginError, setLoginError] = useState(null);
+  const [registerError, setRegisterError] = useState(null);
 
 
   const navigate = useNavigate();
@@ -118,6 +119,7 @@ function App() {
 
   function handleLogin(email, password) {
     setLoginError(null);
+    console.log('Login with ', email, password)
     mainApi.signin(email, password)
       .then(data => {
         setLoggedIn(true);
@@ -136,6 +138,24 @@ function App() {
     setUserMovies(null);
     setLoggedIn(false);
     navigate('/');
+  }
+
+  function handleRegister(name, email, password) {
+    setRegisterError(null);
+    mainApi.signup(name, email, password)
+      .then(res => {
+        console.log(`Registration succeeded: `, res);
+        return mainApi.signin(email, password)
+      })
+      .then(res => {
+        console.log(`Login succeeded: `, res);
+        setLoggedIn(true);
+        navigate('/movies');
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+        setRegisterError(err);
+      })
   }
 
   function getMovies() {
@@ -224,7 +244,7 @@ function App() {
               <Login onLogin={handleLogin} error={loginError}/>
             )}/>
             <Route path="/signup" element={(
-              <Register />
+              <Register onRegister={handleRegister} error={registerError}/>
             )}/>
             <Route path="*" element={(
               <PageNotFound />

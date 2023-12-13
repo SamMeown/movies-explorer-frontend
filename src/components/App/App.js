@@ -2,7 +2,6 @@ import "./App.css";
 import Header from "../Header/Header"
 import Main from "../Main/Main"
 import Footer from "../Footer/Footer";
-import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import PageNotFound from "../PageNotFound/PageNotFound";
@@ -14,6 +13,7 @@ import mainApi from "../../utils/MainApi";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import ProfilePage from "../ProfilePage/ProfilePage";
 
 
 const moviesBaseUrl = 'https://api.nomoreparties.co';
@@ -32,6 +32,7 @@ function App() {
   const [loginError, setLoginError] = useState(null);
   const [registerError, setRegisterError] = useState(null);
 
+  const [userUpdateError, setUserUpdateError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -158,6 +159,19 @@ function App() {
       })
   }
 
+  function handleUserInfoUpdate(name, email) {
+    setUserUpdateError(null);
+    mainApi.updateUserInfo({name, email})
+      .then(data => {
+        console.log(`User update succeeded: `, data);
+        setCurrentUser(data);
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+        setUserUpdateError(err);
+      });
+  }
+
   function getMovies() {
     setMoviesError(false);
     return moviesApi.getMovies()
@@ -234,12 +248,15 @@ function App() {
                 <Footer />
               </>
             )} />}/>
-            <Route path="/profile" element={<ProtectedRoute loggedIn={loggedIn} element={() => (
-              <>
-                <Header loggedIn={loggedIn}/>
-                <Profile name="Виталий" onLogout={handleLogout}/>
-              </>
-            )} />}/>
+
+            <Route path="/profile" element={
+                <ProtectedRoute 
+                  element={ProfilePage}
+                  loggedIn={loggedIn} 
+                  onUserInfoUpdate={handleUserInfoUpdate} 
+                  onLogout={handleLogout} 
+                  error={userUpdateError} />
+            }/>
             <Route path="/signin" element={(
               <Login onLogin={handleLogin} error={loginError}/>
             )}/>

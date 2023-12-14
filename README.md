@@ -2,6 +2,15 @@
 
 Макет: dark-1
 
+## Ссылки  
+
+Пулл-реквест: https://github.com/SamMeown/movies-explorer-frontend/pull/2  
+
+Frontend: https://moviesex.nomoredomainsrocks.ru  
+
+Backend: https://api.moviesex.nomoredomainsrocks.ru  
+
+
 ## Available Scripts
 
 In the project directory, you can run:

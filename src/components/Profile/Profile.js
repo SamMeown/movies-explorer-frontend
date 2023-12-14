@@ -21,6 +21,8 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
     }
   );
 
+  const [initialEditValues, setInitialEditValues] = useState(values);
+
   useEffect(() => {
     if (currentUser.name === values.name && currentUser.email === values.email) {
       setSuccess(true);
@@ -44,6 +46,14 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
   function handleEdit() {
     setEditMode(true);
     setSuccess(false);
+    setInitialEditValues(values);
+  }
+
+  function canUpdate() {
+    return (
+      isValid
+      && !(initialEditValues.email === values.email && initialEditValues.name === values.name)
+    );
   }
 
   return (
@@ -93,7 +103,7 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
             <button 
               className={`profile-form__submit-btn ${success ? "profile-form__submit-btn_type_success" : ""}`} 
               type="submit" 
-              disabled={!isValid} 
+              disabled={!canUpdate()} 
               onClick={handleUserInfoUpdate}
             >{!success ? "Сохранить" : "Профиль обновлен"}</button>
           </div>

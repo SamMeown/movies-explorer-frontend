@@ -9,6 +9,9 @@ function Login({onLogin, error}) {
     {
       email: "",
       password: ""
+    },
+    {
+      email: "Невалидный email"
     }
   );
 
@@ -46,7 +49,8 @@ function Login({onLogin, error}) {
           className={`form__input ${errors.email ? "form__input_type_error" : ""}`} 
           id="email-input" type="email" name="email" 
           placeholder="адрес электронной почты" 
-          minLength="3" maxLength="100" required 
+          minLength="3" maxLength="100" required
+          pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}"
           value={values.email} onChange={handleChange}
         />
         <span 

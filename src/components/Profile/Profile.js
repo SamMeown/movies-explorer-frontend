@@ -12,6 +12,10 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
     {
       name: currentUser.name,
       email: currentUser.email
+    },
+    {
+      name: "Имя может содержать только латиницу, кириллицу, цифры, пробел и дефис",
+      email: "Невалидный email"
     }
   );
 
@@ -49,6 +53,7 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
                 id="name-input" type="text" name="name" 
                 placeholder="адрес электронной почты" 
                 minLength="2" maxLength="100" required 
+                pattern="[A-Za-zА-Яа-я0-9\- ]+" 
                 readOnly={!editMode}
                 value={values.name} onChange={handleChange}/>
               <span 
@@ -63,6 +68,7 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
                 type="email" 
                 placeholder="адрес электронной почты" 
                 minLength="3" maxLength="100" required 
+                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}"
                 readOnly={!editMode}
                 value={values.email} onChange={handleChange} />
               <span 

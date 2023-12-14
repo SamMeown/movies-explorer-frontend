@@ -14,7 +14,7 @@ export function useForm(inputValues) {
   return {values, setValues, handleChange};
 }
 
-export function useFormWithValidation(initialValues) {
+export function useFormWithValidation(initialValues, customPatternMessages) {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
@@ -26,6 +26,12 @@ export function useFormWithValidation(initialValues) {
       ...values, 
       [name]: type === "checkbox" ? checked : value
     });
+
+    const customPatternMsg = customPatternMessages[name];
+    if (customPatternMsg) {
+      target.setCustomValidity(target.validity.patternMismatch ? customPatternMsg : "");
+    }
+    
     setErrors({
       ...errors,
       [name]: target.validationMessage

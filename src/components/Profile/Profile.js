@@ -6,7 +6,9 @@ import { useFormWithValidation } from '../../hooks/form';
 function Profile({onLogout, onUserInfoUpdate, error}) {
 
   const currentUser = useContext(CurrentUserContext);
+  
   const [editMode, setEditMode] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const {values, errors, isValid, handleChange, resetForm} = useFormWithValidation(
     {
@@ -21,7 +23,10 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
 
   useEffect(() => {
     if (currentUser.name === values.name && currentUser.email === values.email) {
-      setEditMode(false);
+      setSuccess(true);
+      setTimeout(() => {
+        setEditMode(false);
+      }, 1500);
     }
   }, [currentUser]);
 
@@ -38,6 +43,7 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
 
   function handleEdit() {
     setEditMode(true);
+    setSuccess(false);
   }
 
   return (
@@ -84,7 +90,12 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
             <span 
               className={`profile-form-error profile-form__submit-error ${error ? "profile-form-error_active" : ""}`}
             >{error && `При обновлении профиля произошла ошибка.`}</span>
-            <button className="profile-form__submit-btn" type="submit" disabled={!isValid} onClick={handleUserInfoUpdate}>Сохранить</button>
+            <button 
+              className={`profile-form__submit-btn ${success ? "profile-form__submit-btn_type_success" : ""}`} 
+              type="submit" 
+              disabled={!isValid} 
+              onClick={handleUserInfoUpdate}
+            >{!success ? "Сохранить" : "Профиль обновлен"}</button>
           </div>
         </form>
       </section>

@@ -242,6 +242,11 @@
   pointer-events: none;
 }
 
+.profile-form__submit-btn_type_success {
+  background-color: #49b888;
+  pointer-events: none;
+}
+
 
 @media screen and (max-width: 768px) {
   .profile-form {

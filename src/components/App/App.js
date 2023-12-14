@@ -14,6 +14,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import MoviesPage from "../MoviesPage/MoviesPage";
 import SavedMoviesPage from "../SavedMoviesPage/SavedMoviesPage";
+import useStoredState from "../../hooks/state";
 
 
 const moviesBaseUrl = 'https://api.nomoreparties.co';
@@ -21,7 +22,7 @@ const moviesBaseUrl = 'https://api.nomoreparties.co';
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useStoredState('loggedIn', false);
 
   const [movies, setMovies] = useState(null);
   const [userMovies, setUserMovies] = useState(null);
@@ -59,13 +60,13 @@ function App() {
         .then(info => {
           console.log(`Got user data (auth): `, info);
           if (!info.email) {
-            return;
+            throw new Error('Token not valid');
           }
 
           setLoggedIn(true);
-          navigate('/movies');
         })
         .catch(err => {
+          setLoggedIn(false);
           console.log(`Ошибка ${err}`);
         });
     }

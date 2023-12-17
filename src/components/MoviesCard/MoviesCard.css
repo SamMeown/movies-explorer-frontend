@@ -13,6 +13,7 @@
   height: 151px;
   object-position: center;
   object-fit: cover;
+  cursor: pointer;
 
   width: 100%;
 }

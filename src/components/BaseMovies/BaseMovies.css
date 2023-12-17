@@ -1,0 +1,41 @@
+.movies {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: #202020;
+  /* height: 285px; */
+}
+
+.movies__preloader {
+  margin: auto 0 auto;
+}
+
+.movies__message {
+  margin: auto auto;
+  padding: 0 10px;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.movies__message_type_error{
+  color: #ee3465;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+}
+
+@media screen and (max-width: 480px) {
+  .movies__message {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  
+  .movies__message_type_error{
+    color: #ee3465;
+    font-size: 12px;
+    line-height: 16px;
+  }
+}

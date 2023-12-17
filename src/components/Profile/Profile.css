@@ -150,7 +150,7 @@
 .profile-form__input-error {
   position: absolute;
   left: 0;
-  bottom: -18px;
+  top: calc(100% + 6px);
   width: 100%;
 
   font-size: 10px;
@@ -239,6 +239,11 @@
   background-color: transparent;
   border: 1px solid #fff;
   opacity: 0.2;
+  pointer-events: none;
+}
+
+.profile-form__submit-btn_type_success {
+  background-color: #49b888;
   pointer-events: none;
 }
 

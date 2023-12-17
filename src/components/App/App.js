@@ -1,134 +1,269 @@
 import "./App.css";
 import Header from "../Header/Header"
 import Main from "../Main/Main"
-import Movies from "../Movies/Movies";
 import Footer from "../Footer/Footer";
-import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import moviesApi from "../../utils/MoviesApi";
+import mainApi from "../../utils/MainApi";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import ProfilePage from "../ProfilePage/ProfilePage";
+import MoviesPage from "../MoviesPage/MoviesPage";
+import SavedMoviesPage from "../SavedMoviesPage/SavedMoviesPage";
+import useStoredState from "../../hooks/state";
 
-let example_cards = [
-  {
-    id: 1,
-    name: "33 слова о дизайне",
-    link: require("../../images/card-33_words.png"),
-    isLiked: true,
-    time: "1ч42м"
-  },
-  {
-    id: 2,
-    name: "Киноальманах «100 лет дизайна»",
-    link: require("../../images/card-100_years.png"),
-    isLiked: true,
-    time: "1ч42м"
-  },
-  {
-    id: 3,
-    name: "В погоне за Бенкси",
-    link: require("../../images/card-banksy.png"),
-    isLiked: true,
-    time: "1ч42м"
-  },
-  {
-    id: 4,
-    name: "Баския: Взрыв реальности",
-    link: require("../../images/card-explosion.png"),
-    isLiked: true,
-    time: "1ч42м"
-  },
-  {
-    id: 5,
-    name: "Gimme Danger: История Игги иии The Stooge и очень длинный-длинный, просто длинющий, необъятный текстище",
-    link: require("../../images/card-iggy.png"),
-    isLiked: true,
-    time: "1ч42м"
-  }
-];
+
+const moviesBaseUrl = 'https://api.nomoreparties.co';
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(true);
-  const [cards, setCards] = useState(example_cards);
-  const [savedCards, setSavedCards] = useState(example_cards);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useStoredState('loggedIn', false);
+
+  const [movies, setMovies] = useState(null);
+  const [userMovies, setUserMovies] = useState(null);
+
+  const [moviesError, setMoviesError] = useState(false);
+  const [userMoviesError, setUserMoviesError] = useState(false);
+
+  const [loginError, setLoginError] = useState(null);
+  const [registerError, setRegisterError] = useState(null);
+
+  const [userUpdateError, setUserUpdateError] = useState(null);
 
   const navigate = useNavigate();
 
-  function handleCardLike(card) {
-    card.isLiked = !card.isLiked;
-    setCards(state => {
-      return state.map(c => c.id === card.id ? card : c)
-    });
+  useEffect(() => {
+    if (!loggedIn) {
+      setCurrentUser(null);
+      return;
+    }
+
+    mainApi.getUserInfo()
+      .then(data => {
+        console.log(`Got user data: `, data);
+        setCurrentUser(data);
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+      });
+  }, [loggedIn]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      mainApi.getUserInfoForToken(token)
+        .then(info => {
+          console.log(`Got user data (auth): `, info);
+          if (!info.email) {
+            throw new Error('Token not valid');
+          }
+
+          setLoggedIn(true);
+        })
+        .catch(err => {
+          setLoggedIn(false);
+          console.log(`Ошибка ${err}`);
+        });
+    }
+  }, []);
+
+  function addMovie(movie) {
+    return mainApi.addMovie(userMovieFromMovie(movie))
+      .then(userMovie => {
+        if (userMovies) {
+          setUserMovies([...userMovies, userMovie]);
+        } else {
+          getUserMovies();
+        }
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+      });
   }
 
-  function handleCardDelete(card) {
-    setSavedCards(state => state.filter(c => c.id !== card.id));
+  function deleteUserMovie(userMovieId) {
+    return mainApi.deleteMovie(userMovieId)
+      .then(data => {
+        if (userMovies) {
+          setUserMovies(state => {
+            return state.filter(c => c._id !== userMovieId);
+          });
+        } else {
+          getUserMovies();
+        }
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+      });
   }
 
-  function handleLoadMoreMovies() {
-    // TODO
+  function userMovieFromMovie(movie) {
+    const {id: movieId, country, director, duration, year, description, trailerLink: trailer, nameRU, nameEN} = movie;
+    return {
+      movieId, country, director, duration, year, description, trailer, nameRU, nameEN,
+      image: `${moviesBaseUrl}${movie.image.url}`,
+      thumbnail: `${moviesBaseUrl}${movie.image.formats.thumbnail.url}`
+    }
   }
 
-  function handleLogin() {
-    setLoggedIn(true);
-    navigate('/movies');
+  function handleMovieLike(movie, userMovie) {
+    if (userMovie) {
+      deleteUserMovie(userMovie._id);
+    } else {
+      addMovie(movie);
+    }
+  }
+
+  function handleLogin(email, password) {
+    setLoginError(null);
+    console.log('Login with ', email, password)
+    mainApi.signin(email, password)
+      .then(data => {
+        setLoggedIn(true);
+        navigate('/movies');
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+        setLoginError(err);
+      })
   }
 
   function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('moviesState');
+    setMovies(null);
+    setUserMovies(null);
     setLoggedIn(false);
     navigate('/');
+  }
+
+  function handleRegister(name, email, password) {
+    setRegisterError(null);
+    mainApi.signup(name, email, password)
+      .then(res => {
+        console.log(`Registration succeeded: `, res);
+        return mainApi.signin(email, password)
+      })
+      .then(res => {
+        console.log(`Login succeeded: `, res);
+        setLoggedIn(true);
+        navigate('/movies');
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+        setRegisterError(err);
+      })
+  }
+
+  function handleUserInfoUpdate(name, email) {
+    setUserUpdateError(null);
+    mainApi.updateUserInfo({name, email})
+      .then(data => {
+        console.log(`User update succeeded: `, data);
+        setCurrentUser(data);
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+        setUserUpdateError(err);
+      });
+  }
+
+  function getMovies() {
+    setMoviesError(false);
+    return moviesApi.getMovies()
+      .then((data) => {
+        setMovies(data);
+        setMoviesError(false);
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+        setMoviesError(true);
+      });
+  }
+
+  function getUserMovies() {
+    setUserMoviesError(false);
+    return mainApi.getMovies()
+      .then((data) => {
+        setUserMovies(data);
+        setUserMoviesError(false);
+      })
+      .catch(err => {
+        console.log(`Ошибка ${err}`);
+        setUserMoviesError(true);
+      });
+  }
+
+  function handleSearch() {
+    getMovies();
+    if (!userMovies) {
+      getUserMovies();
+    }
+  }
+
+  function handleUserMovieDelete(userMovie) {
+    deleteUserMovie(userMovie._id);
+  }
+
+  function handleSavedMoviesLoad() {
+    getUserMovies();
   }
 
   return (
     <div className="page">
       <div className="page__content">
-        <Routes>
-          <Route path="/" element={(
-            <>
-              <Header loggedIn={loggedIn}/>
-              <Main />
-              <Footer />
-            </>
-          )} />
-          <Route path="/movies" element={(
-            <>
-              <Header loggedIn={loggedIn}/>
-              <Movies 
-                cards={cards}
-                onCardLike={handleCardLike} 
-                onLoadMore={handleLoadMoreMovies} 
-                inProgress={false}/>
-              <Footer />
-            </>
-          )}/>
-          <Route path="/saved-movies" element={(
-            <>
-              <Header loggedIn={loggedIn}/>
-              <Movies 
-                cards={savedCards}
-                onCardDelete={handleCardDelete}  
-                inProgress={false}/>
-              <Footer />
-            </>
-          )}/>
-          <Route path="/profile" element={(
-            <>
-              <Header loggedIn={loggedIn}/>
-              <Profile name="Виталий" onLogout={handleLogout}/>
-            </>
-          )}/>
-          <Route path="/signin" element={(
-            <Login onLogin={handleLogin}/>
-          )}/>
-          <Route path="/signup" element={(
-            <Register />
-          )}/>
-          <Route path="*" element={(
-            <PageNotFound />
-          )} />
-        </Routes>
+        <CurrentUserContext.Provider value={currentUser}>
+          <Routes>
+            <Route path="/" element={(
+              <>
+                <Header loggedIn={loggedIn}/>
+                <Main />
+                <Footer />
+              </>
+            )} />
+            <Route path="/movies" element={
+              <ProtectedRoute 
+                element={MoviesPage}
+                loggedIn={loggedIn} 
+                movies={movies}
+                userMovies={userMovies}
+                onMovieLike={handleMovieLike} 
+                onSearch={handleSearch}
+                error={moviesError || userMoviesError} />
+            }/>
+            <Route path="/saved-movies" element={
+              <ProtectedRoute 
+                element={SavedMoviesPage} 
+                loggedIn={loggedIn} 
+                userMovies={userMovies} 
+                onLoad={handleSavedMoviesLoad} 
+                onUserMovieDelete={handleUserMovieDelete}
+                error={userMoviesError} />
+            }/>
+            <Route path="/profile" element={
+                <ProtectedRoute 
+                  element={ProfilePage}
+                  loggedIn={loggedIn} 
+                  onUserInfoUpdate={handleUserInfoUpdate} 
+                  onLogout={handleLogout} 
+                  error={userUpdateError} />
+            }/>
+            <Route path="/signin" element={(
+              <Login onLogin={handleLogin} error={loginError}/>
+            )}/>
+            <Route path="/signup" element={(
+              <Register onRegister={handleRegister} error={registerError}/>
+            )}/>
+            <Route path="*" element={(
+              <PageNotFound />
+            )} />
+          </Routes>
+        </CurrentUserContext.Provider>
       </div>
     </div>
   );

@@ -3,7 +3,9 @@ import './MainWithForm.css'
 import logo from '../../images/logo.svg';
 
 
-function MainWithForm({title, buttonTitle, linkLabel, linkText, linkRef, children, onSubmit}) {
+function MainWithForm(
+  {title, buttonTitle, linkLabel, linkText, linkRef, children, onSubmit, isValid, error}
+) {
   return (
     <main className="form-screen">
       <section className="form-content form-screen__content">
@@ -13,8 +15,10 @@ function MainWithForm({title, buttonTitle, linkLabel, linkText, linkRef, childre
           <fieldset className="form__fieldset">
             {children}
           </fieldset>
-          <span className="form-error form__submit-error">Вы ввели неправильный логин или пароль.</span>
-          <button className="form__submit-btn" type="submit">{buttonTitle}</button>
+          <span 
+            className={`form-error form__submit-error ${error ? "form-error_active" : ""}`}
+          >{error && (error === 401 ? "Вы ввели неправильный логин или пароль." : `Ошибка: ${error}`)}</span>
+          <button className="form__submit-btn" type="submit" disabled={!isValid}>{buttonTitle}</button>
           <div className="form__link-container">
             <span className="form__link-label">{linkLabel}</span><Link className="form__link" to={linkRef}>{linkText}</Link>
           </div>

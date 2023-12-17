@@ -1,9 +1,9 @@
 import './FilterCheckbox.css'
 
-function FilterCheckbox() {
+function FilterCheckbox({name, value, onChange}) {
   return (
     <label className="toggle">
-      <input className="toggle__checkbox" type="checkbox" />
+      <input className="toggle__checkbox" type="checkbox" name={name} checked={value} onChange={onChange}/>
       <svg className="toggle__switch" xmlns="http://www.w3.org/2000/svg" width="36" height="20" viewBox="0 0 36 20" fill="none">
         <rect className="toggle__switch-bg" width="36" height="20" rx="10" fill="#343434"/>
         <rect className="toggle__knob-inner" width="16" height="16" rx="8" x="2" y="2" fill="#e4e4e4"/>

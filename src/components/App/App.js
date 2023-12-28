@@ -223,9 +223,7 @@ function App() {
             <Route path="/" element={(
               <>
                 <Header loggedIn={loggedIn}/>
-                {/* <Main /> */}
-                <MainPromo />
-                {/* <Footer /> */}
+                <MainPromo loggedIn={loggedIn}/>
               </>
             )} />
             <Route path="/movies" element={

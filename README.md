@@ -1,14 +1,11 @@
 # Фронтенд проекта Movies Explorer  
 
-Макет: dark-1
+https://moviesex.nomoredomainsrocks.ru  
 
-## Ссылки  
 
-Пулл-реквест: https://github.com/SamMeown/movies-explorer-frontend/pull/2  
+## Ссылки    
 
-Frontend: https://moviesex.nomoredomainsrocks.ru  
-
-Backend: https://api.moviesex.nomoredomainsrocks.ru  
+Backend: https://github.com/SamMeown/movies-explorer-api    
 
 
 ## Available Scripts

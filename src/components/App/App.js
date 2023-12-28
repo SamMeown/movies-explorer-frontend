@@ -1,6 +1,7 @@
 import "./App.css";
 import Header from "../Header/Header"
 import Main from "../Main/Main"
+import MainPromo from "../MainPromo/MainPromo";
 import Footer from "../Footer/Footer";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
@@ -222,8 +223,9 @@ function App() {
             <Route path="/" element={(
               <>
                 <Header loggedIn={loggedIn}/>
-                <Main />
-                <Footer />
+                {/* <Main /> */}
+                <MainPromo />
+                {/* <Footer /> */}
               </>
             )} />
             <Route path="/movies" element={

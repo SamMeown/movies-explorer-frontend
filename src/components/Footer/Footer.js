@@ -11,7 +11,7 @@ function Footer() {
             <a className="footer__link" href="https://beatfilmfestival.ru" target="_blank" rel="noreferrer">BeatFilm</a>
           </li>
           <li className="footer__link-item">
-            <a className="footer__link" href="https://github.com/SamMeown" target="_blank" rel="noreferrer">Github</a>
+            <a className="footer__link" href="https://github.com/SamMeown/movies-explorer-frontend" target="_blank" rel="noreferrer">Github</a>
           </li>
         </ul>
       </div>

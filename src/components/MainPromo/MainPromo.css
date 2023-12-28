@@ -20,6 +20,7 @@
 }
 
 .hero__image {
+  display: block;
   object-position: center;
   object-fit: cover;
   width: 100%;

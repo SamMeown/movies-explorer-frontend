@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import './Profile.css'
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../../hooks/form';
@@ -23,6 +23,8 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
 
   const [initialEditValues, setInitialEditValues] = useState(values);
 
+  const nameInput = useRef();
+
   useEffect(() => {
     if (currentUser.name === values.name && currentUser.email === values.email) {
       setSuccess(true);
@@ -31,6 +33,12 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
       }, 1500);
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (editMode) {
+      nameInput.current.focus();
+    }
+  }, [editMode]);
 
   function handleUserInfoUpdate(evt) {
     evt.preventDefault();
@@ -71,7 +79,8 @@ function Profile({onLogout, onUserInfoUpdate, error}) {
                 minLength="2" maxLength="100" required 
                 pattern="[A-Za-zА-Яа-я0-9\- ]+" 
                 readOnly={!editMode}
-                value={values.name} onChange={handleChange}/>
+                value={values.name} onChange={handleChange}
+                ref={nameInput} />
               <span 
                 className={`profile-form-error profile-form__input-error profile-form__input-error_el_name-input ${(errors.name && editMode) ? "profile-form-error_active" : ""}`}
               >{errors.name}</span>

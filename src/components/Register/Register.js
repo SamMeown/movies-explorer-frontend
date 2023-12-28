@@ -53,6 +53,7 @@ function Register({onRegister, error}) {
           minLength="2" maxLength="80" required 
           pattern="[A-Za-zА-Яа-я0-9\- ]+"
           value={values.name} onChange={handleChange}
+          autoFocus
         />
         <span 
           className={`form-error form__input-error form__input-error_el_name-input ${errors.name ? "form-error_active" : ""}`}

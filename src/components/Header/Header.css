@@ -16,6 +16,7 @@
   align-items: center;
   box-sizing: border-box;
   padding: 18px 70px 18px;
+  z-index: 1;
 }
 
 .page__header {

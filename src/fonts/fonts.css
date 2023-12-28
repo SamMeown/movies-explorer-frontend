@@ -22,3 +22,25 @@
   src: url('./inter-900.woff2') format('woff2'),
        url('./inter-900.woff') format('woff');
 }
+
+/* montserrat-300 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  src: url('./montserrat-300.ttf') format('truetype');
+}
+/* montserrat-400 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./montserrat-400.ttf') format('truetype');
+}
+/* montserrat-500 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  src: url('./montserrat-500.ttf') format('truetype');
+}

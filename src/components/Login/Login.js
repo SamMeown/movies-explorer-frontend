@@ -52,6 +52,7 @@ function Login({onLogin, error}) {
           minLength="3" maxLength="100" required
           pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}"
           value={values.email} onChange={handleChange}
+          autoFocus
         />
         <span 
           className={`form-error form__input-error form__input-error_el_email-input ${errors.email ? "form-error_active" : ""}`}
